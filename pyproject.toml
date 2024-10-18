@@ -9,7 +9,7 @@ description = "Crawl a web site and export it to text files easily usable in Not
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "spyder>=6.0.1",
+    "scrapy>=2.11.2",
     "tomli>=2.0.1",
     "w3lib>=2.2.1",
 ]
