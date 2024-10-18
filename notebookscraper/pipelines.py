@@ -8,6 +8,6 @@
 from itemadapter import ItemAdapter  # noqa: F401
 
 
-class ScrapypdfPipeline:
+class NotebookscraperPipeline:
     def process_item(self, item, spider):
         return item

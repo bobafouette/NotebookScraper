@@ -1,4 +1,4 @@
-# Scrapy settings for scrapyPDF project
+# Scrapy settings for notebookscraper project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,16 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "scrapyPDF"
+BOT_NAME = "notebookscraper"
 
-SPIDER_MODULES = ["scrapyPDF.spiders"]
-NEWSPIDER_MODULE = "scrapyPDF.spiders"
-# SPIDER_MODULES = ["spiders"]
-# NEWSPIDER_MODULE = "spiders"
+SPIDER_MODULES = ["notebookscraper.spiders"]
+NEWSPIDER_MODULE = "notebookscraper.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = "scrapyPDF (+http://www.yourdomain.com)"
+# USER_AGENT = "notebookscraper (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -47,13 +45,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 # SPIDER_MIDDLEWARES = {
-#    "scrapyPDF.middlewares.ScrapypdfSpiderMiddleware": 543,
+#    "notebookscraper.middlewares.NotebookscraperSpiderMiddleware": 543,
 # }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 # DOWNLOADER_MIDDLEWARES = {
-#    "scrapyPDF.middlewares.ScrapypdfDownloaderMiddleware": 543,
+#    "notebookscraper.middlewares.NotebookscraperDownloaderMiddleware": 543,
 # }
 
 # Enable or disable extensions
@@ -65,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 # ITEM_PIPELINES = {
-#    "scrapyPDF.pipelines.ScrapypdfPipeline": 300,
+#    "notebookscraper.pipelines.NotebookscraperPipeline": 300,
 # }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
