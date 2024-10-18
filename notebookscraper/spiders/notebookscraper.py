@@ -89,7 +89,34 @@ class NotebookScraper(scrapy.Spider):
             yield from response.follow_all(page_links, self.parse)
 
 
-def main(args):
+def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        prog="doc-scraper", description="Crawl & extract text from web site"
+    )
+    parser.add_argument(
+        "-c",
+        "--config",
+        help="Path to a configuration file ('./doc-scraper.toml' by default)",
+        default="./doc-scraper.toml",
+    )
+
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Path to the output directory ('/tmp/scrapper' by default)",
+        default="/tmp/scrapper",
+    )
+
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        help="Enable verbose output",
+        action="store_true",
+    )
+    args = parser.parse_args()
+
     if args.config:
         config_path = args.config
     else:
@@ -125,31 +152,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        prog="doc-scraper", description="Crawl & extract text from web site"
-    )
-    parser.add_argument(
-        "-c",
-        "--config",
-        help="Path to a configuration file ('./doc-scraper.toml' by default)",
-        default="./doc-scraper.toml",
-    )
-
-    parser.add_argument(
-        "-o",
-        "--output",
-        help="Path to the output directory ('/tmp/scrapper' by default)",
-        default="/tmp/scrapper",
-    )
-
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        help="Enable verbose output",
-        action="store_true",
-    )
-    args = parser.parse_args()
-
-    main(args)
+    main()
