@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+dynamic = ["version"]
+name = "scrapypdf"
+description = "Crawl a web site and export it to PDF"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "spyder>=6.0.1",
+    "tomli>=2.0.1",
+    "w3lib>=2.2.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["scrapyPDF"]
+
+[tool.hatch.version]
+source = "vcs"
+

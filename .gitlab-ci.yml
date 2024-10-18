@@ -1,0 +1,76 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  PYTHON_VER: "3.9"
+  PYTHON_IMAGE: $CI_REGISTRY/dev-ops/docker/python:$PYTHON_VER
+
+
+include:
+  - project: gitlab/cicd-templates
+    file: /job_templates/python/quality/quality.yml
+  - project: gitlab/cicd-templates
+    file: /job_templates/python/quality/ruff.yml
+  - project: gitlab/cicd-templates
+    file: /job_templates/python/documentation/sphinx.yml
+  - project: gitlab/cicd-templates
+    file: /job_templates/deploy/deploy-doc.yml
+  - project: gitlab/cicd-templates
+    file: /job_templates/markdown/quality.yml
+  - project: gitlab/cicd-templates
+    file: /job_templates/documentation/build/hugo.yml
+  - project: gitlab/cicd-templates
+    file: /job_templates/python/deploy/pypi.yml
+  - project: gitlab/cicd-templates
+    file: /job_templates/python/test/pytest.yml
+
+stages:
+  - test
+  - build
+
+black:
+  image: $PYTHON_IMAGE
+  extends: .black
+  stage: test
+  tags:
+   -  docker
+  needs: []
+
+ruff:
+  variables:
+      FILES: ./src
+  image: registry.gitlab.com/pipeline-components/ruff:latest
+  extends: .ruff
+  stage: test
+  tags:
+   -  docker
+  needs: []
+
+markdown:lint:
+  image: $PYTHON_IMAGE
+  stage: test
+  extends: .markdown:lint
+  tags:
+   -  docker
+  needs: []
+
+pytest:
+  image: $PYTHON_IMAGE
+  extends: .pytest3
+  stage: test
+  tags:
+   -  docker
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+  needs: []
+
+deploy_production:
+  image: $PYTHON_IMAGE
+  stage: build
+  extends: .publish
+  tags:
+   -  docker
+  only:
+    refs:
+      - tags
+  needs: [pytest]

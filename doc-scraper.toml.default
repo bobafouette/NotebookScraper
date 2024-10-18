@@ -1,0 +1,23 @@
+["https://stackoverflow.blog/2022/09/12/the-many-problems-with-implementing-single-sign-on/"]
+content-selector = [ "#__nuxt > div.p-wrapper.bbr-lg.mx-auto > div > article" ]
+link-selector    = []
+
+["https://www.okta.com/blog/2021/02/single-sign-on-sso/"]
+content-selector = [ "#block-okta-www-theme-content > div.container.OktaShare > div.row > div > article" ]
+link-selector    = []
+
+["https://learn.microsoft.com/fr-fr/entra/identity/enterprise-apps/what-is-single-sign-on"]
+content-selector = [ "#main" ]
+link-selector    = ["#main > div.content > ul:nth-child(16) > li > a"]
+
+["https://support.google.com/a/answer/60224?hl=en"]
+content-selector = [ "#page-width-container > div.main-content > article" ]
+link-selector    = ["#page-width-container > div.side-container > div.fixed-sidebar-container > div.primary-nav > nav > div > ul > li > a"]
+
+["https://cloud.google.com/architecture/identity/single-sign-on"]
+content-selector = [ "#gc-wrapper > main > devsite-content > article" ]
+link-selector    = []
+
+["https://www.lastweekasavciso.com/p/complete-guide-to-single-sign-on-sso-deployment"]
+content-selector = [ "body > div > div > main > div > div.relative.mx-auto.max-w-6xl.px-4 > div:nth-child(2) > div" ]
+link-selector    = []
