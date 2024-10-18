@@ -7,7 +7,7 @@ dynamic = ["version"]
 name = "NotebookScraper"
 description = "Crawl a web site and export it to text files easily usable in NotebookLM"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 dependencies = [
     "scrapy>=2.11.2",
     "tomli>=2.0.1",
