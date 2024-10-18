@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 dynamic = ["version"]
-name = "scrapypdf"
-description = "Crawl a web site and export it to PDF"
+name = "NotebookScraper"
+description = "Crawl a web site and export it to text files easily usable in NotebookLM"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["scrapyPDF"]
+packages = ["notebookscraper"]
 
 [tool.hatch.version]
 source = "vcs"
