@@ -10,7 +10,7 @@ from urllib.parse import urlparse, urlsplit
 MAX_FILE_SIZE = 500000
 
 
-class QuotesSpider(scrapy.Spider):
+class NotebookScraper(scrapy.Spider):
     name = "quotes"
     # start_urls = [
     #     "https://docs.astral.sh/uv/",
@@ -120,7 +120,7 @@ def main(args):
         logging.basicConfig(level=logging.INFO)
 
     process = CrawlerProcess()
-    process.crawl(QuotesSpider, config=config, output=args.output)
+    process.crawl(NotebookScraper, config=config, output=args.output)
     process.start()
 
 
