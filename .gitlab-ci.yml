@@ -36,7 +36,7 @@ black:
 
 ruff:
   variables:
-      FILES: ./src
+      FILES: ./notebookscraper
   image: registry.gitlab.com/pipeline-components/ruff:latest
   extends: .ruff
   stage: test
