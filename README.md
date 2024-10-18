@@ -18,7 +18,7 @@ Fill the `doc-scraper.toml` file :
 
 ## TODO
 
-- [ ] Remove `PDF` from the project name, dirs, files and code
+- [x] Remove `PDF` from the project name, dirs, files and code
 - [ ] Debug the python venv in the devcontainer
 - [ ] Add a console script and make sure the tool can be properly installed
 - [ ] Improve logging confguration & add a bit of tui user experience
