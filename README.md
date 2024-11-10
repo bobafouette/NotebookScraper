@@ -15,6 +15,14 @@ Fill the `doc-scraper.toml` file :
 - In each section:
   - Provide a list of css selectors that will be used to scrap the content
   - Provide a list of css selectore to target links that the scraper will follow
+A very simple example is provided in the `doc-scraper.toml.default` file.
+
+Install the package in a virtual environment and source it, or via pipx.
+Then run the following command:
+
+```bash
+scrap -c my-doc-scraper.toml -o ~/my/output/dir
+```
 
 ## TODO
 
