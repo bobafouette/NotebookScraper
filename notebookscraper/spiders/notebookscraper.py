@@ -22,21 +22,9 @@ class NotebookScraper(scrapy.Spider):
             self.hosts.append(urlparse(url).netloc)
             yield scrapy.Request(url, self.parse)
 
-    def parse(self, response):
-        url = response.url
-        for configured_url in self.config:
-            split_url = urlsplit(configured_url)
-            base_url = f"{split_url.scheme}://{split_url.netloc}"
-            logging.debug(f"Checking if '{url}' starts with '{base_url}'")
-            if not url.startswith(base_url):
-                continue
-            config_of_url = self.config.get(configured_url)
-            break
-        else:
-            raise ValueError(f"Could not find a config section for '{url}'")
-
+    def extract_content(self, response, url_config):
         body = ""
-        for content_selector in config_of_url.get("content-selector", ["body > p"]):
+        for content_selector in url_config.get("content-selector", ["body > p"]):
             logging.debug(f"Extracting content from '{content_selector}'")
             content = response.css(content_selector).get()
             if not content or content in body:
@@ -53,19 +41,30 @@ class NotebookScraper(scrapy.Spider):
             if not line:
                 continue
             clean_body += line + "\n"
-        hostname = urlparse(url).netloc
-        if hostname not in self.hosts:
-            return
+        return clean_body
+
+    def save_content(self, clean_body, url):
+        split_url = urlsplit(url)
+        hostname = split_url.netloc
+        if self.split:
+            content_file_name_base = (
+                f"{hostname}_{split_url.path.replace('/', '_').replace(':', '_')}"
+            )
+        else:
+            content_file_name_base = f"{hostname}"
 
         file_counter = 0
         for content_file in os.listdir(self.output):
-            if not content_file.startswith(hostname):
+            if not content_file.startswith(content_file_name_base):
                 continue
             file_counter += 1
+
         if file_counter > 1:
-            content_file_path = f"{self.output}/{hostname}_{file_counter}.txt"
+            content_file_path = (
+                f"{self.output}/{content_file_name_base}_{file_counter}.txt"
+            )
         else:
-            content_file_path = f"{self.output}/{hostname}.txt"
+            content_file_path = f"{self.output}/{content_file_name_base}.txt"
 
         skipwriting = False
         if os.path.exists(content_file_path):
@@ -74,16 +73,40 @@ class NotebookScraper(scrapy.Spider):
                 content_file_content = html_txt.read()
                 if clean_body in content_file_content:
                     skipwriting = True
-                if len(html_txt.read().split("\n")) >= MAX_FILE_SIZE:
+                elif len(content_file_content.split("\n")) >= MAX_FILE_SIZE:
                     file_counter += 1
-                    content_file_path = f"{self.output}/{hostname}_{file_counter}.txt"
+                    content_file_path = (
+                        f"{self.output}/{content_file_name_base}_{file_counter}.txt"
+                    )
 
         if not skipwriting:
             with open(f"{content_file_path}", "a") as html_txt:
                 logging.info(f"Writing to {content_file_path}")
                 html_txt.write(clean_body)
 
-        for link_selector in config_of_url.get("link-selector", []):
+    def parse(self, response):
+        url = response.url
+        for configured_url in self.config:
+            split_url = urlsplit(configured_url)
+            base_url = f"{split_url.scheme}://{split_url.netloc}"
+            logging.debug(f"Checking if '{url}' starts with '{base_url}'")
+            if not url.startswith(base_url):
+                continue
+            url_config = self.config.get(configured_url)
+            break
+        else:
+            raise ValueError(f"Could not find a config section for '{url}'")
+
+        hostname = urlparse(url).netloc
+        if hostname not in self.hosts:
+            return
+
+        clean_body = self.extract_content(response, url_config)
+        if clean_body:
+            self.save_content(clean_body, url)
+
+        for link_selector in url_config.get("link-selector", []):
+            logging.debug(f"Looking for selector: {link_selector}")
             page_links = response.css(link_selector)
             logging.info(f"Following links: {page_links}")
             yield from response.follow_all(page_links, self.parse)
@@ -115,6 +138,14 @@ def main():
         help="Enable verbose output",
         action="store_true",
     )
+
+    parser.add_argument(
+        "-s",
+        "--split",
+        help="Split output files by url. Default is to append to the same file all the link of the same domain.",
+        action="store_true",
+    )
+
     args = parser.parse_args()
 
     if args.config:
@@ -147,7 +178,7 @@ def main():
         logging.basicConfig(level=logging.INFO)
 
     process = CrawlerProcess()
-    process.crawl(NotebookScraper, config=config, output=args.output)
+    process.crawl(NotebookScraper, config=config, output=args.output, split=args.split)
     process.start()
 
 
