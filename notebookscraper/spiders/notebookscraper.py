@@ -5,6 +5,7 @@ import tomli
 import w3lib
 
 from scrapy.crawler import CrawlerProcess
+from scrapy.utils.log import configure_logging
 from urllib.parse import urlparse, urlsplit
 
 MAX_FILE_SIZE = 500000
@@ -173,10 +174,14 @@ def main():
         config = tomli.load(config_file)
 
     if args.verbose:
-        logging.basicConfig(level=logging.DEBUG)
+        logging.info("Verbose output enabled")
+        logging.basicConfig(level=logging.WARNING)
+        log_level = logging.DEBUG
     else:
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.WARNING)
+        log_level = logging.INFO
 
+    configure_logging({"LOG_LEVEL": log_level})
     process = CrawlerProcess()
     process.crawl(NotebookScraper, config=config, output=args.output, split=args.split)
     process.start()
