@@ -1,20 +1,20 @@
 # NotebookScraper
 
-## Decription
+## Description
 
-Made to scrap content from webiste & dump it to files.
+Made to scrape content from websites & dump it to files.
 The output file format is made to be compatible with `notebooklm`.
-This is ideal to recursively scrap content from a documentation website
+This is ideal to recursively scrape content from a documentation website
 and use it in a notebooklm project.
 
 ## How to use it
 
-Fill the `doc-scraper.toml` file :
+Fill the `doc-scraper.toml` file:
 
-- One section per site to scrap
+- One section per site to scrape
 - In each section:
-  - Provide a list of css selectors that will be used to scrap the content
-  - Provide a list of css selectore to target links that the scraper will follow
+  - Provide a list of CSS selectors that will be used to scrape the content
+  - Provide a list of CSS selectors to target links that the scraper will follow
 A very simple example is provided in the `doc-scraper.toml.default` file.
 
 Install the package in a virtual environment and source it, or via pipx.
